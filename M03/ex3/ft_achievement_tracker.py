@@ -42,7 +42,9 @@ def main() -> None:
             if j != i:
                 others = set.union(others, ach_sets[j])
         only = set.difference(ach_sets[i], others)
-        print(f"Only {names[i]} has: {only}")
+        if not only:
+            print(f"Only {names[i]} has: {only}")
+        print(f"{names[i]} has nothing unique")
 
     full_set = set(ACHIEVEMENTS)
     for i in range(len(names)):
