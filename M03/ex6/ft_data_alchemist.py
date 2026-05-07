@@ -12,9 +12,9 @@ def print_list(lst: list[str]) -> None:
     print(f"[{strlst}]")
 
 
-def print_scores(dct: dict[str, int]) -> None:
+def print_scores(lst: list[tuple[str, int]]) -> None:
     strlst = str()
-    for player, score in dct:
+    for player, score in lst:
         strlst += f"{player}: {score}, "
     strlst = strlst[:-2]
     print(f"{{{strlst}}}")

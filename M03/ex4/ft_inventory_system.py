@@ -15,7 +15,7 @@ def main() -> None:
         except ValueError as e:
             print(f"{tmp[0]} {e}")
         else:
-            if not name in inventory:
+            if name not in inventory:
                 inventory[name] = quantity
     distinct_items = len(inventory.items())
     inventory

@@ -1,9 +1,13 @@
 import sys
 
+def write_file(filename: str, content: str) -> None:
+    with open(filename, "w", encoding="utf-8") as file:
+        file.write(content)
 
 def main() -> None:
     if len(sys.argv) != 2:
         print("Usage: ft_ancient_text.py <file>")
+        return
     else:
         path = sys.argv[1]
     print(f"=== Cyber Archives Recovery ===\nAccessing file '{path}'")
@@ -19,7 +23,9 @@ def main() -> None:
         file.close()
         filename = input(f"Enter new file name (or empty): ")
         if filename:
-            
+            write_file(filename, content)
+        else:
+            print("Not saving data.")
 
 
 if __name__ == "__main__":
