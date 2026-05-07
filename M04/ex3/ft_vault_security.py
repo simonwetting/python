@@ -1,18 +1,24 @@
 import sys
 
 def secure_archive(filename: str, read_or_write: str, content: str = "") -> tuple[bool, str]:
-    with open(filename, read_or_write, encoding="utf-8") as file:
-        if read_or_write == "w":
-            file.write(content)
-            return (False, "str()")
-        if read_or_write == "r":
-            return (False, file.read())
-        else:
-            return (False, str())
-
-def write_file(filename: str, content: str) -> None:
-    with open(filename, "w", encoding="utf-8") as file:
-        file.write(content)
+    try:
+        with open(filename, read_or_write, encoding="utf-8") as file:
+            if read_or_write == "w":
+                print("Using 'secure_archive'to write previous content to a new file:")
+                file.write(content)
+                #print(f"(True, 'Content successfully written to file')")
+                return (True, "Content successfully written to file")
+            if read_or_write == "r":
+                print("Using 'secure_archive'to read from a regular file:")
+                return (True, file.read())
+            else:
+                return (True, "Invalid mode")
+    except FileNotFoundError as e:
+        print("Using 'secure_archive'to read from a nonexistent file:")
+        return (False, e)
+    except PermissionError as e:
+        print("Using 'secure_archive'to read from an inaccessible file:")
+        return (False, e)
 
 def main() -> None:
     if len(sys.argv) != 2:
@@ -20,28 +26,47 @@ def main() -> None:
         return
     else:
         path = sys.argv[1]
-    print(f"=== Cyber Archives Recovery ===\nAccessing file '{path}'")
-    try:
-        # with open(path, "r", encoding="utf-8") as file:
-        #    content = file.read()
-        state, content = secure_archive(path, "r")
-    except Exception as e:
-        sys.stderr.write(f"[STDERR]Error opening file '{path}': {e}")
-    else:
-        content = content.replace("\n", "#\n") + "#"
-        print(f"---\n\n{content}\n\nFile 'ancient_fragment.txt'closed."
-              f"\n\nTransform data:\n---\n\n{content}\n\n---")
-        #file.close()
-        #filename = input(f"Enter new file name (or empty): ")
-        sys.stdout.write("Enter new file name (or empty): ")
-        sys.stdout.flush()
-        filename = sys.stdin.readline()
+    print(f"=== Cyber Archives Recovery ===\n")
+    state, content = secure_archive(path, "r")
+    if state:
+        print(f"(True, '{path} {content}')")
+        #content = content.replace("\n", "#\n") + "#"
+        filename = input("Enter new file name (or empty): ")
         if filename:
-            # write_file(filename, content)
             secure_archive(filename, "w", content)
         else:
             print("Data not saved.")
+        print(f"(True, 'Content successfully written to file')")
+    else:
+        print(f"(False, \"{content}\")")
 
 
 if __name__ == "__main__":
     main()
+
+#def main() -> None:
+#    if len(sys.argv) != 2:
+#        print("Usage: ft_ancient_text.py <file>")
+#        return
+#    else:
+#        path = sys.argv[1]
+#    print(f"=== Cyber Archives Recovery ===\nAccessing file '{path}'")
+#    try:
+#        # with open(path, "r", encoding="utf-8") as file:
+#        #    content = file.read()
+#        state, content = secure_archive(path, "r")
+#    except Exception as e:
+#        sys.stderr.write(f"(False, \"[STDERR]Error opening file '{path}': {e}\")")
+#    else:
+#        content = content.replace("\n", "#\n") + "#"
+#        print(f"Using 'secure_archive'to read from a regular file:\n(True, '[FRAGMENT 0")
+#        #file.close()
+#        #filename = input(f"Enter new file name (or empty): ")
+#        sys.stdout.write("Enter new file name (or empty): ")
+#        sys.stdout.flush()
+#        filename = sys.stdin.readline()
+#        if filename:
+#            # write_file(filename, content)
+#            secure_archive(filename, "w", content)
+#        else:
+#            print("Data not saved.")
