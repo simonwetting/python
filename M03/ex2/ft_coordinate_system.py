@@ -11,12 +11,13 @@ def get_player_pos() -> tuple[float, float, float]:
         try:
             x, y, z = float(parts[0]), float(parts[1]), float(parts[2])
             return (x, y, z)
-        except ValueError as e:
+        except ValueError:
             for part in parts:
                 try:
                     float(part)
                 except ValueError as e:
                     print(f"Error on parameter '{part.strip()}': {e}")
+
 
 def distance(p1: tuple[float, float, float],
              p2: tuple[float, float, float]) -> float:
